@@ -14,8 +14,17 @@ function Ball(x, y, r) {
   }
 
   this.move = function() {
-    this.checkX();
-    this.checkY();
+    if (this.x < this.r * 7 || this.x > this.r * 7) {
+      this.checkX();
+    }
+    if (this.y < windowHeight / 4 || this.y > windowHeight / 4) {
+      this.checkY();
+    }
+    if (this.x <= windowWidth / 2) {
+      this.checkPlayer(player1);
+    } else {
+      this.checkPlayer(player2);
+    }
     this.x += this.velocity_x;
     this.y += this.velocity_y;
   }
@@ -29,11 +38,22 @@ function Ball(x, y, r) {
 
   this.checkY = function() {
     if (this.y <= 0 + this.r / 2) {
-      this.velocity_y = this.velocity_y * (-1);
+      this.velocity_y *= (-1);
 
     } else if (this.y >= height - this.r / 2) {
-      this.velocity_y = this.velocity_y * (-1);
+      this.velocity_y *= (-1);
 
+    }
+  }
+  this.checkPlayer = function(p) {
+    if (this.y >= p.y && this.y <= p.y + p.height && (this.x - this.r == p.x)) {
+      //bounce
+      this.velocity_y *= (-1);
+      this.velocity_x *= (-1);
+    } else if (this.y >= p.y && this.y <= p.y + p.height && (this.x == p.x - this.r)) {
+      //bounce
+      this.velocity_y *= (-1);
+      this.velocity_x *= (-1);
     }
   }
 
